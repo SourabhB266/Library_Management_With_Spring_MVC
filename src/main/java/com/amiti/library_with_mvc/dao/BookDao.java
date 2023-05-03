@@ -36,6 +36,15 @@ public class BookDao {
 		return book;
 	}
 	
+	public Book updateBook(Book book) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		session.update(book);
+		transaction.commit();
+		session.close();
+		return book;
+	}
+	
 	public List<Book> getAllBooks(){
 		Session session = factory.openSession();
 		Query query = session.createQuery("from Book");

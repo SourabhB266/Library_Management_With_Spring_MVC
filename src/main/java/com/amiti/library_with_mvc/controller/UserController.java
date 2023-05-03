@@ -28,10 +28,17 @@ public class UserController {
 	@CrossOrigin
 	@PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<User> saveUser(@RequestBody User user){
+		System.out.println("controller called");
 		dao.saveUser(user);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	
+	@CrossOrigin
+	@PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<User> updateUser(@RequestBody User user){
+		dao.updateUser(user);
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
 	@CrossOrigin
 	@GetMapping(value = "/getall",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> getAllUsers(){
@@ -43,6 +50,10 @@ public class UserController {
 	@GetMapping(value =  "/getById",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> getUserById(@RequestParam int id){
 		User user =dao.getUserById(id);
+		if(user!=null) {
 		return new ResponseEntity<>(user,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(user,HttpStatus.NOT_FOUND);
+		}
 	}
 }

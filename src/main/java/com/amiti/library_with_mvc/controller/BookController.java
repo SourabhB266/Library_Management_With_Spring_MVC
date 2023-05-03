@@ -17,38 +17,49 @@ import org.springframework.web.bind.annotation.RestController;
 import com.amiti.library_with_mvc.dao.BookDao;
 import com.amiti.library_with_mvc.dto.Book;
 
-
-
 @RestController
 public class BookController {
-	
+
 	@Autowired
 	private BookDao dao;
-	
+
 	@CrossOrigin
-	@PostMapping(value = "/saveBook",consumes = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<Book> saveBook(@RequestBody Book book){
+	@PostMapping(value = "/saveBook", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Book> saveBook(@RequestBody Book book) {
 		dao.saveBook(book);
-		return new ResponseEntity<Book>(book,HttpStatus.OK);
+
+		return new ResponseEntity<Book>(book, HttpStatus.OK);
+
 	}
-	
+
 	@CrossOrigin
-	@GetMapping(value = "/getAllBooks",produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Book>> getAllBooks(){
-		List<Book> list =dao.getAllBooks();
+	@PostMapping(value = "/updateBook", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Book> updateBook(@RequestBody Book book) {
+		dao.updateBook(book);
+		return new ResponseEntity<Book>(book, HttpStatus.OK);
+	}
+
+	@CrossOrigin
+	@GetMapping(value = "/getAllBooks", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Book>> getAllBooks() {
+		List<Book> list = dao.getAllBooks();
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
-	
+
 	@CrossOrigin
-	@GetMapping(value = "/getBookById",produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Book> getBookById(@RequestParam int id){
+	@GetMapping(value = "/getBookById", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Book> getBookById(@RequestParam int id) {
 		Book book = dao.getBookById(id);
-		return new ResponseEntity<>(book, HttpStatus.OK);
+		if (book != null) {
+			return new ResponseEntity<>(book, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Book>(book, HttpStatus.NOT_FOUND);
+		}
 	}
-	
+
 	@CrossOrigin
 	@DeleteMapping(value = "/deleteBook")
-	public ResponseEntity<Book> deleteBook(@RequestParam int id){
+	public ResponseEntity<Book> deleteBook(@RequestParam int id) {
 		Book book = dao.deleteBook(id);
 		return new ResponseEntity<>(book, HttpStatus.OK);
 	}

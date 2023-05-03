@@ -28,6 +28,7 @@ public class UserDao {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 		session.save(user);
+		System.out.println("===========Saved Successfully=============");
 		transaction.commit();
 		session.close();
 		return user;
@@ -40,7 +41,15 @@ public class UserDao {
 		return list;
 	}
 
-	@Transactional
+	public User updateUser(User user) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		session.update(user);
+		transaction.commit();
+		session.close();
+		return user;
+	}
+	
 	public User deleteUser(int id) {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
